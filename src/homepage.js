@@ -11,7 +11,7 @@ const fetchAllPosts = async () => {
 	} catch(error) {
 		console.error('ERROR: Fetching all posts |', error);
 	}
-}
+};
 
 const generatePosts = async () => {
 	const data = await fetchAllPosts();
