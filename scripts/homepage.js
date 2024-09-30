@@ -16,10 +16,12 @@ const fetchAllPosts = async () => {
 const generatePosts = async () => {
 	const data = await fetchAllPosts();
 	postsElement.innerHTML = data.map(post => `
-      <article class="post">
-        <h2 class="post-title">${post.title}</h2>
-        <p class="post-body">${post.body}</p>
-      </article>
+   		<a href="post.html?id=${post.id}" class="post-link">
+			<article class="post">
+				<h2 class="post-title">${post.title}</h2>
+				<p class="post-body">${post.body}</p>
+		  	</article>
+		</a>
     `).join('');
 }
 
