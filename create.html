@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>CRUD - Create Post</title>
+	</head>
+	<body>
+		<h1>Create a New Post</h1>
+		
+		<form id="create-post-form">
+			<input type="number" id="userId" name="userId" placeholder="User ID" required />
+			<input type="text" id="title" name="title" placeholder="Title" required />
+			<textarea id="body" name="body" placeholder="Body" required></textarea>
+			<button type="submit">Create</button>
+		</form>
+		<p id="status"></p>
+
+		<script src="scripts/create.js"></script>
+	</body>
+</html>
