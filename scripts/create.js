@@ -21,11 +21,10 @@ formElement.addEventListener('submit', async (event) => {
 
 		const newPost = await response.json();
 		console.log('SUCCESS: Created post', newPost);
-		statusElement.textContent = `Post created with ID: ${newPost.id}`;
-
-		window.location.href = `post.html?id=${newPost.id}`;
+		alert(`Post created with ID: ${newPost.id}`);
+		window.location.href = `index.html`;
 	} catch (error) {
 		console.error('ERROR: Creating post |', error);
-		statusElement.textContent = 'Failed to create post.';
+		alert('Failed to create post');
 	}
 });

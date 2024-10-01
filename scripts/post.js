@@ -25,3 +25,25 @@ const generatePost = async () => {
 }
 
 generatePost();
+
+const deleteButton = document.getElementById('delete');
+deleteButton.addEventListener('click', async () => {
+	const confirmDelete = confirm('Are you sure you want to delete this post?');
+	if (!confirmDelete) return;
+
+	const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+	  method: 'DELETE'
+	});
+
+	if (response.ok) {
+	  alert('Post deleted');
+	  window.location.href = 'index.html';
+	} else {
+	  alert('Failed to delete post');
+	}
+});
+
+const editButton = document.getElementById('edit');
+editButton.addEventListener('click', async () => {
+	window.location.href = `edit.html?id=${postId}`;
+});
