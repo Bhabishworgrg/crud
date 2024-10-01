@@ -1,36 +1,43 @@
-const postId = new URLSearchParams(window.location.search).get('id');
-const form = document.getElementById('edit-form');
-const titleInput = document.getElementById('title');
-const bodyInput = document.getElementById('body');
+$(document).ready(function () {
+	const postId = new URLSearchParams(window.location.search).get('id');
 
-(async () => {
-  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-  const post = await response.json();
-  titleInput.value = post.title;
-  bodyInput.value = post.body;
-})();
+	if (!postId) {
+		alert('No post ID found in URL');
+		return;
+	}
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+	$.get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+		.done(function (post) {
+			$('#title').val(post.title);
+			$('#body').val(post.body);
+			console.log(`SUCCESS: Loaded post #${postId} for editing`);
+		})
+		.fail(function () {
+			alert('Failed to load post');
+			console.error(`ERROR: Could not fetch post #${postId}`);
+		});
 
-  const updatedPost = {
-    title: titleInput.value,
-    body: bodyInput.value,
-  };
+	$('#edit-form').on('submit', function (event) {
+		event.preventDefault();
 
-  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updatedPost)
-  });
+		const updatedPost = {
+			title: $('#title').val(),
+			body: $('#body').val()
+		};
 
-  if (response.ok) {
-    alert('Post updated');
-    window.location.href = `index.html`;
-  } else {
-    alert('Failed to update post');
-  }
+		$.ajax({
+			url: `https://jsonplaceholder.typicode.com/posts/${postId}`,
+			type: 'PUT',
+			contentType: 'application/json',
+			data: JSON.stringify(updatedPost),
+			success: function () {
+				alert(`Post #${postId} updated`);
+				window.location.href = 'index.html';
+			},
+			error: function () {
+				alert('Failed to update post');
+				console.error(`ERROR: Updating post #${postId}`);
+			}
+		});
+	});
 });
-

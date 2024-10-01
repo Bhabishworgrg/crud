@@ -1,30 +1,26 @@
-const formElement = document.getElementById('create-post-form');
-const statusElement = document.getElementById('status');
+$(document).ready(function () {
+	$('#create-form').on('submit', function (event) {
+		event.preventDefault();
 
-formElement.addEventListener('submit', async (event) => {
-	event.preventDefault();
+		const newPost = {
+			title: $('#title').val(),
+			body: $('#body').val()
+		};
 
-	const userId = formElement.userId.value.trim();
-	const title = formElement.title.value.trim();
-	const body = formElement.body.value.trim();
-
-	try {
-		const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
+		$.ajax({
+			url: 'https://jsonplaceholder.typicode.com/posts',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(newPost),
+			success: function (createdPost) {
+				alert('Post created successfully!');
+				console.log('SUCCESS: Created post |', createdPost);
+				window.location.href = 'index.html';
 			},
-			body: JSON.stringify({ userId, title, body }),
+			error: function () {
+				alert('Failed to create post');
+				console.error('ERROR: Creating post');
+			}
 		});
-
-		if (!response.ok) console.error('ERROR: Creating post | Status', response.status);
-
-		const newPost = await response.json();
-		console.log('SUCCESS: Created post', newPost);
-		alert(`Post created with ID: ${newPost.id}`);
-		window.location.href = `index.html`;
-	} catch (error) {
-		console.error('ERROR: Creating post |', error);
-		alert('Failed to create post');
-	}
+	});
 });
